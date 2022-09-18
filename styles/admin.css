@@ -27,15 +27,29 @@ a {
 	display: none;
 }
 
+svg {
+	fill: white;
+}
+
 .centerHolder {
 	width: 100%;
 	text-align: center;
 	display: block;
 }
 
+.subHeading {
+	font-size: 35px;
+	font-weight: 700;
+}
+
+.statement {
+	font-size: 22px;
+	text-indent: 1cm;
+}
+
+
  #header {
 	background-color: #250030;
-	color: white;
 	height: 3cm;
 	width: 100%;
 	border: none;
@@ -45,10 +59,22 @@ a {
 	position: fixed;
 	top: 0;
 	z-index: 3;
-	font-weight: 300;
-	font-size: 40px;
 	text-align: left;
 	text-indent: 1cm;
+}
+
+#header #heading {
+	color: white;
+	font-weight: 300;
+	font-size: 40px;
+}
+
+#header #lblLogOut {
+	color: white;
+	font-weight: 300;
+	font-size: 25px;
+	float: right;
+	padding: 0 3mm;
 }
 
  #footer {
@@ -63,21 +89,41 @@ a {
 	position: fixed;
 	bottom: 0;
 	z-index: 3;
-	font-weight: 300;
-	font-size: 30px;
 	text-align: left;
 	overflow-x: scroll;
+	overflow-y: hidden;
+}
+
+#footer table {
+	width: 100%;
 }
 
 #footer .item {
 	display: inline-block;
-	padding: 0 7mm;
+	padding: 3mm 7mm;
 	transition: background-color 0.3s;
-	border-radius: 15px;
+	border-radius: 50px;
+	text-align: center;
+}
+
+#footer .item #icon svg {
+	width: 1.3cm;
+	height: 1.3cm;
+}
+
+#footer .item #text {
+	display: block;
+	line-height: 1.3cm;
+	font-weight: 300;
+	font-size: 25px;
 }
 
 #footer  #selected {
 	color: orange;
+}
+
+#footer  #selected svg {
+	fill: orange;
 }
 
 #footer .item:active {
@@ -90,12 +136,24 @@ a {
 }
 
 #main .container {
-	
+	overflow: scroll;
+	padding-bottom: 3.5cm;
 }
 
 #main .container #heading {
 	font-size: 45px;
 	font-weight: 700;
+}
+
+#main .container #content {
+	height: 15cm;
+	overflow: scroll;
+	padding-bottom: 1cm;
+	transition: box-shadow 0.3s;
+}
+
+#main .container #content:hover {
+	box-shadow: 0 0 30px 0 rgba(255, 255, 255, 0.8);
 }
 
 
@@ -222,6 +280,11 @@ a {
 .table tr {
 	line-height: 1cm;
 	height: 2.5cm;
+	transition: background-color 0.3s;
+}
+
+.table tr:active {
+	background-color: rgba(255, 255, 255, 0.08);
 }
 
 .table th {
@@ -234,6 +297,14 @@ a {
 	height: 1cm;
 }
 
+[id=tblActions] tbody tr:active {
+ 	background-color: rgba(0, 0, 0, 0);
+ }
+ 	
+[id=tblActions] tbody tr td:active {
+	background-color: rgba(255, 255, 255, 0.05);
+}
+ 	
 
 #bottomPage {
 	position: fixed;
@@ -253,14 +324,14 @@ a {
 #bottomPage #container {
 	position: fixed;
 	bottom: 3cm;
-	width: 100%;
+	width: 98%;
 	height: 0%;
-	overflow-x: hidden;
+	overflow-x: scroll;
 	overflow-y: scroll;
 	background-color: #250030;
 	border-radius: 15px 15px 0 0;
 	transition: height 0.2s;
-	padding: 1cm 0 0 0;
+	padding: 1cm 1% 0 1%;
 }
 
 #bottomPage #container #heading {
@@ -271,6 +342,20 @@ a {
 #bottomPage #container .hierachy {
 	font-weight: 700;
 	font-size: 25px;
+}
+
+#bottomPage #container .closeButton {
+	background-color: rgba(255, 0, 0, 0.3);
+	font-size: 22px;
+	font-weight: 700;
+	float: right;
+	padding: 7mm;
+	border: none;
+	color: white;
+}
+
+#bottomPage #container .closeButton:active {
+	background-color: rgba(255, 0, 0, 0.5);
 }
 
 

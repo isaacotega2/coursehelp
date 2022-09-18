@@ -22,6 +22,10 @@
 		
 			$accountDetails["fullName"] = $row["full_name"];
 		
+			$accountDetails["nickname"] = $row["nickname"];
+		
+			$accountDetails["bio"] = $row["bio"];
+		
 			$accountDetails["gender"] = $row["gender"];
 		
 			$accountDetails["emailAddress"] = $row["email_address"];
@@ -38,10 +42,19 @@
 		
 			$accountDetails["cookieCode"] = $row["cookie_code"];
 		
-			$accountDetails["date_registered"] = $row["date_registered"];
+			$accountDetails["dateRegistered"] = $row["date_registered"];
 		
-			$accountDetails["time_registered"] = $row["time_registered"];
+			$accountDetails["timeRegistered"] = $row["time_registered"];
 			
+			$accountDetails["lastActiveDate"] = $row["last_active_date"];
+		
+			$accountDetails["lastActiveTime"] = $row["last_active_time"];
+			
+			
+			$accountDetails["originalProfilePicture"] = ($page["rootPath"] . "images/profile-pictures/" . $row["usercode"] . ".jpg");
+			
+			$accountDetails["profilePicture"] = (file_exists($accountDetails["originalProfilePicture"]) ? $accountDetails["originalProfilePicture"] : ($page["rootPath"] . "images/avatars/" . $accountDetails["gender"] . ".jpg"));
+		
 			
 			if(isset($_COOKIE[$website["cookies"]["admin"]["name"]])) {
 			
@@ -55,6 +68,46 @@
 			
 			}
 			
+			$sql = "SELECT * FROM dialogues WHERE first_partner_usercode = '$usercode' OR second_partner_usercode = 'usercode' ";
+		
+			if($result = mysqli_query($conn, $sql)) {
+		
+				$accountDetails["dialogues"]["ids"] = array();
+			
+				while($row = mysqli_fetch_array($result)) {
+					
+					$accountDetails["dialogues"]["ids"][] = $row["dialogue_id"];
+				
+				}
+				
+			}
+			
+			$sql = "SELECT * FROM subscriptions WHERE subscriber_usercode = '$usercode' AND type = 'official_handout' ";
+		
+			if($result = mysqli_query($conn, $sql)) {
+		
+				$accountDetails["subscriptions"]["handout"]["all"]["ids"] = array();
+			
+				$accountDetails["subscriptions"]["handout"]["active"]["ids"] = array();
+			
+				while($row = mysqli_fetch_array($result)) {
+					
+					$subscriptionId = $row["subscription_id"];
+				
+					$productId = $row["product_id"];
+				
+					$accountDetails["subscriptions"]["handout"]["all"]["ids"][] = $productId;
+					
+					if($row["active"] == "true") {
+					
+						$accountDetails["subscriptions"]["handout"]["active"]["ids"][] = $productId;
+					
+					}
+				
+				}
+				
+			}
+
 			return $accountDetails;
 	
 		}
@@ -90,6 +143,22 @@
 		
 			$forumDetails["list"] = array();
 					
+			$sql = "SELECT * FROM forum_members WHERE forum_id = '$forumId' ";
+		
+			if($result = mysqli_query($conn, $sql)) {
+			
+				$forumDetails["members"]["number"] = mysqli_num_rows($result);
+				
+				$forumDetails["members"]["usercodes"] = array();
+				
+				while($row = mysqli_fetch_array($result)) {
+				
+					$forumDetails["members"]["usercodes"][] = $row["member_usercode"];
+				
+				}
+			
+			}
+			
 			$sql = "SELECT * FROM topics WHERE forum_id = '$forumId' ";
 		
 			if($result = mysqli_query($conn, $sql)) {
@@ -105,6 +174,38 @@
 			}
 		
 			return $forumDetails;
+	
+		}
+		
+	}
+	
+	
+	function forumMembersDetails($memberUsercode) {
+		
+		global $conn, $page;
+		
+		$sql = "SELECT * FROM forum_members WHERE member_usercode = '$memberUsercode' ";
+		
+		if($result = mysqli_query($conn, $sql)) {
+		
+			$row = mysqli_fetch_array($result);
+			
+			$forumMembersDetails = array();
+			
+			$forumMembersDetails["is"] = array();
+			
+			$forumMembersDetails["forumId"] = $row["forum_id"];
+		
+			$forumMembersDetails["memberUsercode"] = $row["member_usercode"];
+		
+			$forumMembersDetails["dateJoined"] = $row["date_joined"];
+		
+			$forumMembersDetails["timeJoined"] = $row["time_joined"];
+			
+			$forumMembersDetails["is"]["admin"] = ($row["admin"] == "true" ? true : false);
+			
+		
+			return $forumMembersDetails;
 	
 		}
 		
@@ -182,7 +283,41 @@
 		
 			$commentDetails["timePosted"] = $row["time_posted"];
 		
-			$commentDetails["list"] = array();
+			$commentDetails["replies"] = array();
+			
+			$commentDetails["replies"]["ids"] = array();
+					
+			$commentDetails["likes"] = array();
+			
+			$commentDetails["likes"]["usercodes"] = array();
+					
+			$sql = "SELECT * FROM replies WHERE comment_id = '$commentId' ";
+			
+			if($result = mysqli_query($conn, $sql)) {
+		
+				$commentDetails["replies"]["exists"] = (mysqli_num_rows($result) > 0);
+					
+				while($row = mysqli_fetch_array($result)) {
+			
+					$commentDetails["replies"]["ids"][] = $row["reply_id"];
+					
+				}
+		 	
+		 	}
+			
+			$sql = "SELECT * FROM likes WHERE resource_id = '$commentId' ";
+			
+			if($result = mysqli_query($conn, $sql)) {
+		
+				$commentDetails["likes"]["number"] = mysqli_num_rows($result);
+					
+				while($row = mysqli_fetch_array($result)) {
+			
+					$commentDetails["likes"]["usercodes"][] = $row["liker_usercode"];
+					
+				}
+					
+		 	}
 			
 			return $commentDetails;
 	
@@ -190,34 +325,82 @@
 		
 	}
 	 
-	
-	function mainCourseDetails($courseId) {
+	function replyDetails($replyId) {
 		
 		global $conn, $page;
 		
-		$sql = "SELECT * FROM main_courses WHERE course_id = '$courseId' ";
+		$sql = "SELECT * FROM replies WHERE reply_id = '$replyId' ";
 		
 		if($result = mysqli_query($conn, $sql)) {
 		
 			$row = mysqli_fetch_array($result);
 			
-			$mainCourseDetails = array();
+			$replyDetails = array();
 			
-			$mainCourseDetails["courseId"] = $row["course_id"];
+			$replyDetails["replyId"] = $row["reply_id"];
 		
-			$mainCourseDetails["name"] = $row["name"];
+			$replyDetails["replierUsercode"] = $row["replier_usercode"];
 		
-			$mainCourseDetails["levelType"] = $row["level_type"];
+			$replyDetails["commentId"] = $row["comment_id"];
 		
-			$mainCourseDetails["subCourses"] = array("ids" => array(), "levels" => array() );
+			$replyDetails["reply"] = $row["reply"];
 		
-			$sql = "SELECT * FROM sub_courses WHERE main_course_id = '$courseId' ";
+			$replyDetails["datePosted"] = $row["date_posted"];
+		
+			$replyDetails["timePosted"] = $row["time_posted"];
+		
+			$replyDetails["likes"] = array();
+			
+			$replyDetails["likes"]["usercodes"] = array();
+					
+			$sql = "SELECT * FROM likes WHERE resource_id = '$replyId' ";
 			
 			if($result = mysqli_query($conn, $sql)) {
 		
+				$replyDetails["likes"]["number"] = mysqli_num_rows($result);
+					
 				while($row = mysqli_fetch_array($result)) {
 			
-					$mainCourseDetails["subCourses"]["ids"][] = $row["sub_course_id"];
+					$replyDetails["likes"]["usercodes"][] = $row["liker_usercode"];
+					
+				}
+					
+		 	}
+			
+			return $replyDetails;
+	
+		}
+		
+	}
+	 
+	
+	function departmentDetails($departmentId) {
+		
+		global $conn, $page;
+		
+		$sql = "SELECT * FROM departments WHERE department_id = '$departmentId' ";
+		
+		if($result = mysqli_query($conn, $sql)) {
+		
+			$row = mysqli_fetch_array($result);
+			
+			$departmentDetails = array();
+			
+			$departmentDetails["departmentId"] = $row["department_id"];
+		
+			$departmentDetails["name"] = $row["name"];
+		
+			$departmentDetails["courses"] = array("ids" => array());
+		
+			$sql = "SELECT * FROM courses WHERE department_id = '$departmentId' ";
+			
+			if($result = mysqli_query($conn, $sql)) {
+		
+				$departmentDetails["courses"]["number"] = mysqli_num_rows($result);
+					
+				while($row = mysqli_fetch_array($result)) {
+			
+					$departmentDetails["courses"]["ids"][] = $row["course_id"];
 					
 				}
 				
@@ -225,46 +408,57 @@
 	
 		}
 		
-		return $mainCourseDetails;
+		return $departmentDetails;
 	
 	}
 	
 	
-	function subCourseDetails($subCourseId) {
+	function courseDetails($courseId) {
 		
 		global $conn, $page;
 		
-		$sql = "SELECT * FROM sub_courses WHERE sub_course_id = '$subCourseId' ";
+		$sql = "SELECT * FROM courses WHERE course_id = '$courseId' ";
 		
 		if($result = mysqli_query($conn, $sql)) {
 		
 			$row = mysqli_fetch_array($result);
 			
-			$subCourseDetails = array();
+			$courseDetails = array();
 			
-			$subCourseDetails["subCourseId"] = $row["sub_course_id"];
+			$courseDetails["courseId"] = $row["course_id"];
 		
-			$subCourseDetails["mainCourseId"] = $row["main_course_id"];
+			$courseDetails["departmentId"] = $row["department_id"];
 		
-			$subCourseDetails["name"] = $row["name"];
+			$courseDetails["institutionId"] = $row["institution_id"];
 		
-			$subCourseDetails["level"] = $row["level"];
+			$courseDetails["name"] = $row["name"];
 		
-			$subCourseDetails["pagesNumber"] = $row["pages_number"];
+			$courseDetails["level"] = $row["level"];
 		
-			$subCourseDetails["institution"] = $row["institution"];
+			$courseDetails["datePosted"] = $row["date_posted"];
 		
-			$subCourseDetails["department"] = $row["department"];
+			$courseDetails["timePosted"] = $row["time_posted"];
 		
-			$subCourseDetails["datePosted"] = $row["date_posted"];
+			$sql = "SELECT * FROM official_handouts WHERE course_id = '$courseId' ";
+			
+			if($result = mysqli_query($conn, $sql)) {
 		
-			$subCourseDetails["timePosted"] = $row["time_posted"];
-		
-		
+				$courseDetails["handouts"]["number"] = mysqli_num_rows($result);
+					
+				$courseDetails["handouts"]["ids"] = array();
+					
+				while($row = mysqli_fetch_array($result)) {
+			
+					$courseDetails["handouts"]["ids"][] = $row["handout_id"];
+					
+				}
+				
+			}
+	
 
 		}
 		
-		return $subCourseDetails;
+		return $courseDetails;
 	
 	}
 	
@@ -294,7 +488,275 @@
 	
 	}
 	
-/*
+	function officialHandoutDetails($handoutId) {
+		
+		global $conn, $page;
+		
+		$sql = "SELECT * FROM official_handouts WHERE handout_id = '$handoutId' ";
+		
+		if($result = mysqli_query($conn, $sql)) {
+		
+			$row = mysqli_fetch_array($result);
+			
+			$officialHandoutDetails = array();
+			
+			$officialHandoutDetails["handoutId"] = $row["handout_id"];
+		
+			$officialHandoutDetails["courseId"] = $row["course_id"];
+		
+			$officialHandoutDetails["name"] = $row["name"];
+		
+			$officialHandoutDetails["pagesNumber"] = $row["pages_number"];
+		
+			$officialHandoutDetails["datePosted"] = $row["date_posted"];
+		
+			$officialHandoutDetails["timePosted"] = $row["time_posted"];
+		
+			$officialHandoutDetails["dateUpdated"] = $row["date_updated"];
+		
+			$officialHandoutDetails["timeUpdated"] = $row["time_updated"];
+		
+			return $officialHandoutDetails;
+	
+		}
+		
+	}
+	
+	
+	function donatedHandoutDetails($handoutId) {
+		
+		global $conn, $page;
+		
+		$sql = "SELECT * FROM donated_handouts WHERE handout_id = '$handoutId' ";
+		
+		if($result = mysqli_query($conn, $sql)) {
+		
+			$row = mysqli_fetch_array($result);
+			
+			$donatedHandoutDetails = array();
+			
+			$donatedHandoutDetails["handoutId"] = $row["handout_id"];
+		
+			$donatedHandoutDetails["donatorUsercode"] = $row["donator_usercode"];
+		
+			$donatedHandoutDetails["courseId"] = $row["course_id"];
+		
+			$donatedHandoutDetails["departmentId"] = $row["department_id"];
+		
+			$donatedHandoutDetails["institutionId"] = $row["institution_id"];
+		
+			$donatedHandoutDetails["name"] = $row["name"];
+		
+			$donatedHandoutDetails["level"] = $row["level"];
+		
+			$donatedHandoutDetails["datePosted"] = $row["date_posted"];
+		
+			$donatedHandoutDetails["timePosted"] = $row["time_posted"];
+			
+			$donatedHandoutDetails["pagesNumber"] = $row["pages_number"];
+			
+			$donatedHandoutDetails["status"] = $row["status"];
+			
+			switch($donatedHandoutDetails["status"]) {
+			
+				case "building" :
+					
+					$donatedHandoutDetails["statusComment"] = "Uncompleted";
+				
+					break;
+			
+				case "reviewing" :
+					
+					$donatedHandoutDetails["statusComment"] = "Under review";
+				
+					break;
+			
+				case "approved" :
+					
+					$donatedHandoutDetails["statusComment"] = "Approved";
+				
+					break;
+			
+				case "rejected" :
+					
+					$donatedHandoutDetails["statusComment"] = "Rejected";
+				
+					break;
+			
+				default :
+					
+					$donatedHandoutDetails["statusComment"] = "Unknown";
+				
+					break;
+			
+			}
+			
+			return $donatedHandoutDetails;
+	
+		}
+		
+	}
+	
+	
+	function subscriptionDetails($subscriptionId) {
+		
+		global $conn, $page;
+		
+		$sql = "SELECT * FROM subscriptions WHERE subscription_id = '$subscriptionId' ";
+		
+		if($result = mysqli_query($conn, $sql)) {
+		
+			$row = mysqli_fetch_array($result);
+			
+			$subscriptionDetails = array();
+			
+			$subscriptionDetails["subscriptionId"] = $row["subscription_id"];
+		
+			$subscriptionDetails["subscriberUsercode"] = $row["subscriber_usercode"];
+		
+			$subscriptionDetails["type"] = $row["type"];
+		
+			$subscriptionDetails["productId"] = $row["product_id"];
+		
+			$subscriptionDetails["duration"] = $row["duration"];
+		
+			$subscriptionDetails["active"] = $row["active"];
+		
+			$subscriptionDetails["dateSubscribed"] = $row["date_subscribed"];
+		
+			$subscriptionDetails["timeSubscribed"] = $row["time_subscribed"];
+		
+			return $subscriptionDetails;
+	
+		}
+		
+	}
+	
+	function dialogueDetails($dialogueId) {
+		
+		global $conn, $page, $user;
+		
+		$sql = "SELECT * FROM dialogues WHERE dialogue_id = '$dialogueId' ";
+		
+		if($result = mysqli_query($conn, $sql)) {
+		
+			$row = mysqli_fetch_array($result);
+			
+			$dialogueDetails = array();
+			
+			$dialogueDetails["dialogueId"] = $row["dialogue_id"];
+		
+			$dialogueDetails["firstPartnerUsercode"] = $row["first_partner_usercode"];
+		
+			$dialogueDetails["secondPartnerUsercode"] = $row["second_partner_usercode"];
+			
+			if($user["account"]["usercode"] == $dialogueDetails["firstPartnerUsercode"]) {
+			
+				$dialogueDetails["user"]["partner"]["usercode"] = $dialogueDetails["secondPartnerUsercode"];
+			
+			}
+			
+			else {
+			
+				$dialogueDetails["user"]["partner"]["usercode"] = $dialogueDetails["firstPartnerUsercode"];
+			
+			}
+			
+			$sql = "SELECT * FROM messages WHERE chat_id = '$dialogueId' ORDER BY date_sent, time_sent, id ";
+		
+			if($result = mysqli_query($conn, $sql)) {
+				
+				$dialogueDetails["messages"]["ids"] = array();
+		
+				while($row = mysqli_fetch_array($result)) {
+				
+					$dialogueDetails["messages"]["ids"][] = $row["message_id"];
+				
+				}
+			
+			}
+		
+			return $dialogueDetails;
+	
+		}
+		
+	}
+	 
+	
+	function messageDetails($messageId) {
+		
+		global $conn, $page;
+		
+		$sql = "SELECT * FROM messages WHERE message_id = '$messageId' ";
+		
+		if($result = mysqli_query($conn, $sql)) {
+		
+			$row = mysqli_fetch_array($result);
+			
+			$messageDetails = array();
+			
+			$messageDetails["messageId"] = $row["message_id"];
+		
+			$messageDetails["chatId"] = $row["chat_id"];
+		
+			$messageDetails["text"] = $row["text"];
+			
+			$messageDetails["senderUsercode"] = $row["sender_usercode"];
+		
+			$messageDetails["dateSent"] = $row["date_sent"];
+		
+			$messageDetails["timeSent"] = $row["time_sent"];
+			
+			return $messageDetails;
+	
+		}
+		
+	}
+	 
+	
+	function funnyWierdQuestionDetails($questionId) {
+		
+		global $conn, $page;
+		
+		$sql = "SELECT * FROM funny_wierd_questions WHERE question_id = '$questionId' ";
+		
+		if($result = mysqli_query($conn, $sql)) {
+		
+			$row = mysqli_fetch_array($result);
+			
+			$funnyWierdQuestionDetails = array();
+			
+			$funnyWierdQuestionDetails["questionId"] = $row["question_id"];
+		
+			$funnyWierdQuestionDetails["question"] = $row["question"];
+		
+			$funnyWierdQuestionDetails["datePosted"] = $row["date_posted"];
+		
+			$funnyWierdQuestionDetails["timePosted"] = $row["time_posted"];
+		
+			$funnyWierdQuestionDetails["list"] = array();
+			
+			$sql = "SELECT * FROM comments WHERE topic_id = '" . $funnyWierdQuestionDetails["questionId"] . "' ORDER BY date_posted, time_posted ";
+					
+			if($result = mysqli_query($conn, $sql)) {
+				
+				$funnyWierdQuestionDetails["list"]["comments"]["ids"] = array();
+		
+				while($row = mysqli_fetch_array($result)) {
+				
+					$funnyWierdQuestionDetails["list"]["comments"]["ids"][] = $row["comment_id"];
+				
+				}
+			
+			}
+			
+		}
+		
+		return $funnyWierdQuestionDetails;
+	
+	}
+	
+
 	function icon($name, $type = "svg") {
 		
 		global $page;
@@ -321,7 +783,7 @@
 		}
 	
 	}
-	*/
+	
 	function randomDigits($length) {
 	
 		$digits = "";						

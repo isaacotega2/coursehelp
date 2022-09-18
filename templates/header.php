@@ -1,6 +1,6 @@
 <?php
 	
-//	include_once($page["rootPath"] . "scripts/php/access-restrictor.php");
+	include_once($page["rootPath"] . "scripts/php/access-restrictor.php");
 		
 	include_once($page["rootPath"] . "scripts/php/general-info.php");
 
@@ -14,11 +14,17 @@
 	
 		<link rel="stylesheet" type="text/css" href="<?php echo $page["rootPath"]; ?>styles/index.css">
 
-	
+		<script src="<?php echo $page["rootPath"]; ?>scripts/js/JQuery.js"></script>
 		
     </head>
   <body>
-<header> <img class="head-image" src="<?php echo $page["rootPath"]; ?>images/icon.png"> 
+<header> 
+	
+	<a href="<?php echo $page["rootPath"]; ?>">
+		
+		<img class="head-image" src="<?php echo $page["rootPath"]; ?>images/icon.png"></img>
+		
+	</a>
 	
 	<?php
 		
@@ -46,16 +52,32 @@
       
      </header>
      <hr>
-       <div class="ads"> ads </div>
-     <hr>
-     <div class="button-line">
      
-       <button><em> <a class="button-link" href="<?php echo $page["rootPath"]; ?>courses">Courses</a></em></button>
-       
-       <button> <em><a class="button-link" href=""> Funny/Weird Questions</a></em></button> 
-       <button> <em> <a class="button-link" href=""> Q/A game</a> </em></button>
-       <button><em> <a class="button-link" href=""> Messages</a></em></button>
-       <button> <em><a class="button-link" href="<?php echo $page["rootPath"]; ?>forum"> Forum </a></em></button> 
-       <button><em> <a class="button-link" href=""> Notifications</a></em></button>
-      <button><em><a class="button-link" href=""> Coursehelp</a></em></button> 
-    </div>
+     <?php
+     	
+     	if(isset($page["buttonLine"])) {
+     		
+     		if($page["buttonLine"]["exists"]) {
+     			
+     			include($page["rootPath"] . "templates/top-ads.php");
+     			
+     			include($page["rootPath"] . "templates/button-line.php");
+     			
+     		}
+     		
+     		else {
+     		
+     		
+     		}
+     	
+    		}
+    		
+    		else {
+    		
+     		include($page["rootPath"] . "templates/top-ads.php");
+     			
+     		include($page["rootPath"] . "templates/button-line.php");
+     			
+    		}
+    		
+    	?>

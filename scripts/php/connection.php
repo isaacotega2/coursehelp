@@ -1,12 +1,12 @@
 <?php
-
-	$servername = "sing.hostbuddy.cloud";
 	
-	$username = "ovolisky_coursehelp";
+	$servername = "localhost";
 	
-	$password = "crshlpUsr123";
+	$username = "root";
 	
-	$dbname = "ovolisky_main";
+	$password = "adminadmin";
+	
+	$dbname = "coursehelp";
 	
 	$conn = mysqli_connect($servername, $username, $password, $dbname);
 	

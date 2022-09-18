@@ -1,6 +1,6 @@
 <?php
 
-	$page = array("rootPath" => "../../../", "title" => "Create topic");
+	$page = array("rootPath" => "../../../", "title" => "Comment", "restriction" => array("account"));
 	
 	include_once($page["rootPath"] . "scripts/php/connection.php");
 	
@@ -85,17 +85,20 @@ body{
 }
     </style>
 
-  <div style="height: 50px; background-color: red;"> Ads</div>  <hr>
+
      <h2>Post a comment</h2>
      <h4> Notice: Please make sure you have read the rules & regulations about posting and creating of topics in the website (Located below this page) before creating a topic</h4>
      <form method="post"><br>
        <p><h3>Comment:</h3></p>
        <textarea name="comment" rows=8 cols=40 wrap=virtual></textarea>
+       
+       <!--
+       
       <input type="file">
       <input type="file">
       <input type="file">
       <input type="file">
-    
+    -->
        <p><button class="sub" type="submit>">Comment</button></p>
 </form>
 
@@ -103,7 +106,7 @@ body{
   <h3>Rules & Regulations on Posting and Creating topics in the website</h3>
   <div>
     Please Observe the Following Rules below:
-    <ul>
+    <ul><!--
       <li>Don't bullly, abuse, delibrately insult/provoke, fight, or wish harm to any member of Coursehelp Forum</li>
       <li>Please spell words correctly when you post, and try to use perfect grammar and puntuation</li>
       <li>Don't threnten, support or defend violent acts against any person, tribe, race, animals, or group</li>
@@ -119,7 +122,7 @@ body{
       <li>Don't promote shady investments like betting, HYIP, MLM, FOREX,binary options,and cryptocurrencies on Coursehelp Forum</li>
       <li>Don't spam the Forum by advertising or posting the same content many times</li>
       <li>Compliants to or against Moderators and Admins must be sent privately. Please don't disobey, disrespect, or defame them</li>
-   
+   -->
     </ul>
   </div>
 </div>

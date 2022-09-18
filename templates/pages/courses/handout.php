@@ -20,7 +20,13 @@
 	
 ?>
 
+<style>
 
+	.handoutPages {
+		max-width: 100%;
+	}
+
+</style>
 
     <div class="head-div"> <span style="display: flex; justify-content: center;"> <?php echo $mainCourseDetails["name"]; ?> handouts</span></div>
        <hr>
@@ -78,7 +84,7 @@
      		
      		echo '
      	
-  			  <img alt="' . $subCourseDetails["name"] . ' >> page ' . $i . '" src="' . $page["rootPath"] . 'scripts/php/handout-page.php?sub-course-id=' . $subCourseId . '&page=' . $i . '">
+  			  <img alt="' . $subCourseDetails["name"] . ' >> page ' . $i . '" src="' . $page["rootPath"] . 'scripts/php/handout-page.php?sub-course-id=' . $subCourseId . '&page=' . $i . '" class="handoutPages">
 
 			  <hr>
     

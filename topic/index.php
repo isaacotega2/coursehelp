@@ -1,6 +1,6 @@
 <?php
 
-	$page = array("rootPath" => "../", "title" => "Topic");
+	$page = array("rootPath" => "../");
 	
 	include_once("../scripts/php/methods.php");
 	
@@ -10,6 +10,7 @@
 	
 	$topicDetails = topicDetails($topicId);
 	
+	$page["title"] = $topicDetails["title"];
 	
 	include_once($page["rootPath"] . "templates/header.php");
 	
@@ -86,6 +87,11 @@ height: 100px;
     border-radius: 5px;
    position: relative;
 }
+
+.comment #text {
+	font-family: tes;
+}
+
  .down {
    color: gray;
    display: flex;
@@ -94,52 +100,25 @@ height: 100px;
    z-index: 100;
  }
 
- footer {
-   width: 100%;
-   height: 300px;
-   background-color: rgb(131, 97, 97);
-   margin-top: 50px;
-   border-radius: 10px;
-   
-   }
-
-   .footer-content {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     flex-direction: column;
-     text-align: center;
-      }
-
-    .socials {
-      list-style: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      
-    }
-    .socials li {
-      margin: 0 10px;
-    }
-    .socials a {
-      text-decoration: none;
-      color: black;
-      border: 1.1px solid black;
-      padding: 5px;
-      border-radius: 50%;
-    }
-  
-    .footer-bottom span {
-      float: left;
-      font-size: 14px;
-      word-spacing: 2px;
-      text-transform: capitalize;
+    [function=reply] {
+	    	margin-left: 1.5cm;
     }
       
     </style>
 
      <h3> <?php echo $topicDetails["title"]; ?> </h3>
-     <p>Posted by <?php echo accountDetails($topicDetails["posterUsercode"])["fullName"]; ?>: <?php echo $topicDetails["datePosted"]; ?> <?php echo $topicDetails["timePosted"]; ?></p> <hr>
+     
+     <p>Posted by <a href="<?php echo $page["rootPath"]; ?>profile?id=<?php echo accountDetails($topicDetails["posterUsercode"])["usercode"]; ?>"><?php echo accountDetails($topicDetails["posterUsercode"])["nickname"]; ?></a>: <?php echo $topicDetails["datePosted"]; ?> <?php echo $topicDetails["timePosted"]; ?> >> 
+     
+     	<a href="<?php echo $page["rootPath"]; ?>forum/<?php echo forumDetails($topicDetails["forumId"])["folder"]; ?>">
+     		
+     		<?php echo forumDetails($topicDetails["forumId"])["name"]; ?>
+     		
+     	</a>
+     
+     </p>
+     
+     <hr>
      
      <div><?php echo $topicDetails["body"]; ?> </div>
      
@@ -152,28 +131,19 @@ height: 100px;
       		
       		$commentDetails = commentDetails($eachId);
       	
-      		echo '<div class="comment"><p style="color: grey;">' . accountDetails($commentDetails["commenterUsercode"])["fullName"] . ' reply: ' . $commentDetails["timePosted"] . ' on ' . $commentDetails["datePosted"] . '</p>
-        <p>' . $commentDetails["comment"] . '</p>
-        <p class="down"> <a href="#"> (Reply)</a> <a href="#">(Report) </a>  34 Likes <a href="#"> (Like)</a></p></div>';
+      		include($page["rootPath"] . "templates/comment.php");
         		
+     	 	foreach($commentDetails["replies"]["ids"] as $eachId) {
+      		
+      			$replyDetails = replyDetails($eachId);
+      	
+      			include($page["rootPath"] . "templates/reply.php");
+      			
+      		}
+        
         	}
         
      ?>
-    
-    
-    <!--
-  
-      <div class="comment"><p style="color: grey;">Sarah reply: 2:32am on july 10th 2022</p>
-        <p>gutted TJ monny didnt win, well Congratulations to aluta Standard</p>
-        <p class="down"> <a href="#"> (Reply)</a> <a href="#">(Report) </a>  34 Likes <a href="#"> (Like)</a></p></div>
-    
-        <div class="comment"><p style="color: grey;">Benardinho reply: 2:32am on july 10th 2022</p>
-          <p> Congratulations. we believe you can move the university forward
-          </p>
-          <p class="down"> <a href="#"> (Reply)</a> <a href="#">(Report) </a>  54 Likes <a href="#"> (Like)</a> </p> </div>
-    </div>
-    
-    -->
     
 <?php
 	

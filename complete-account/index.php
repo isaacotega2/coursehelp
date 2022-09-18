@@ -1,5 +1,7 @@
 <?php
 	
+	$page = array("rootPath" => "../", "title" => "Complete account", "restriction" => array("account"), "buttonLine" => array("exists" => false));
+	
 	include_once("../scripts/php/connection.php");
 	
 	if(isset($_COOKIE["accountCookieCode"])) {
@@ -38,131 +40,9 @@
 	
 	include_once("../scripts/php/methods.php");
 	
+	include_once($page["rootPath"] . "templates/header.php");
+	
  ?>
- 
- <!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
- body {
-   font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
- } 
-/*the container must be positioned relative:*/
-.custom-select {
-  position: relative;
-  font-family: Arial;
-}
-
-.custom-select select {
-  display: none; /*hide original SELECT element:*/
-}
-
-.select-selected {
-  background-color: rgb(131, 97, 97);
-}
-
-/*style the arrow inside the select element:*/
-.select-selected:after {
-  position: absolute;
-  content: "";
-  top: 14px;
-  right: 10px;
-  width: 0;
-  height: 0;
-  border: 6px solid transparent;
-  border-color: #fff transparent transparent transparent;
-}
-
-/*point the arrow upwards when the select box is open (active):*/
-.select-selected.select-arrow-active:after {
-  border-color: transparent transparent #fff transparent;
-  top: 7px;
-}
-
-/*style the items (options), including the selected item:*/
-.select-items div,.select-selected {
-  color: #ffffff;
-  padding: 8px 16px;
-  border: 1px solid transparent;
-  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
-  cursor: pointer;
-  user-select: none;
-}
-
-/*style items (options):*/
-.select-items {
-  position: absolute;
-  background-color: rgb(131, 97, 97);
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 99;
-}
-
-/*hide the items when the select box is closed:*/
-.select-hide {
-  display: none;
-}
-
-.select-items div:hover, .same-as-selected {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-/* Button styling*/
-
-
-.button-1 {
-  appearance: button;
-  backface-visibility: hidden;
-  background-color:  rgb(131, 97, 97);
-  border-radius: 6px;
-  border-width: 0;
-  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset,rgba(50, 50, 93, .1) 0 2px 5px 0,rgba(0, 0, 0, .07) 0 1px 1px 0;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
-  font-size: 100%;
-  height: 40px;
-  line-height: 1.15;
-  margin: 12px 0 0;
-  outline: none;
-  overflow: hidden;
-  padding: 0 25px;
-  position: relative;
-  text-align: center;
-  text-transform: none;
-  transform: translateZ(0);
-  transition: all .2s,box-shadow .08s ease-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 150px;
-  
-}
-
-.button-1:disabled {
-  cursor: default;
-}
-
-.button-1:focus {
-  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
-}
-
-.button-div{
-margin: auto;
-}
-
-
-
-</style>
-</head>     
-
-<body>
-     <div style=" text-align: center;
-     margin: 24px 0 12px 0;">
-       <img style="height: 50px;" src="../cooltext412489882790884.png ">
-     </div>
  
 <form method="post">
   <h2>Select your Institution</h2>
@@ -195,9 +75,9 @@ margin: auto;
     
     <?php
     	
-    		foreach($website["content"]["mainCourses"]["ids"] as $eachId) {
+    		foreach($website["content"]["departments"]["ids"] as $eachId) {
     		
- 			echo '<option>' . mainCourseDetails($eachId)["name"] . '</option>';
+ 			echo '<option>' . departmentDetails($eachId)["name"] . '</option>';
  			
  		}
  		
@@ -251,10 +131,9 @@ margin: auto;
 
 
 </form>
-<script>
 
-
-</script>
-
-</body>
-</html>
+<?php
+	
+	include($page["rootPath"] . "templates/footer.php");
+	
+?>

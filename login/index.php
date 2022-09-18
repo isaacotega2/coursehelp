@@ -1,9 +1,11 @@
 <?php
 	
-	$page = array("rootPath" => "../", "title" => "Login");
+	$page = array("rootPath" => "../", "title" => "Login", "buttonLine" => array("exists" => false));
 	
 
 	include_once("../scripts/php/connection.php");
+	
+	include_once("../scripts/php/functions.php");
 	
 	include_once("../scripts/php/methods.php");
 	
@@ -27,7 +29,9 @@
 			
 					setcookie("accountCookieCode",  $cookieCode, time() + (86400 * 30), "/");
 		
-					echo '<script> alert("Login Successful"); window.location.href = "../"; </script>';
+					echo '<script> alert("Login Successful"); </script>';
+				
+					relocate( isset($_GET["next"]) ? $_GET["next"] : $page["rootPath"] );
 				
 				}
 				
@@ -96,6 +100,8 @@
     
         <h2>Login</h2>
 
+ 		<?php echo (isset($_GET["next"]) ? '<div class="centerHolder"> <label class="formLabel">You have to login to view this page</label> </div>' : ""); ?>
+ 	
         <form method="post">
           <div class="container">
               <label for="email"><b>Email</b></label>

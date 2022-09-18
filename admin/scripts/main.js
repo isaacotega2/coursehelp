@@ -1,7 +1,9 @@
 $(document).ready(function() {
 
-	loadPage("handouts");
+	loadPage("donations");
 
+				//	bottomPage.rise("official-handout-subscription-adder");
+						
 	$("#footer .item").click(function() {
 	
 		loadPage($(this).attr("page"));
@@ -10,7 +12,7 @@ $(document).ready(function() {
 		
 	function loadPage(page) {
 		
-		pageLoader();
+	//	pageLoader();
 		
 		$.ajax({
 			url: "pages/" + page + ".php",
@@ -21,15 +23,22 @@ $(document).ready(function() {
 				$("#footer .item").attr("id", "");
 		
 				$("#footer [page=" + page + "]").attr("id", "selected");
-		
+		/*
+	$("#main .container #content").css({
+		height: "10cm",
+		overflow: "hidden",
+		border: "10px solid green"
+	});
+*/
 			},
 			error: function(response) {
 			alert ( JSON.stringify(response) );
-			}
+			},
+			cache: false
 		});
 	
 	}
-
+	
 });
 
 function pageLoader() {

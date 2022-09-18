@@ -76,7 +76,31 @@ box-shadow: rgba(72, 95, 199, .25) 0 0 0 .125em;
     <div class="head-div"> <span style="display: flex; justify-content: center;
      height: 100%; align-items: center;"><?php echo $forumDetails["name"]; ?></span></div>
      
-     <button class="create"><a style="color: black;" href="../actions/create-topic?id=<?php echo $forumId; ?>"> Create a Topic </a></button>
+     <?php
+     	
+     	if($user["is"]["signedIn"]) {
+     	
+     	if(in_array($user["account"]["usercode"], $forumDetails["members"]["usercodes"])) {
+     
+     		echo '<button class="create"><a style="color: black;" href="../actions/create-topic?id=' . $forumId . '"> Create a Topic </a></button>';
+     		
+     	}
+     	
+     	else {
+     	
+     		echo '<button class="create"><a style="color: black;" href="' . $page["rootPath"] . 'forum/actions/join?id=' . $forumId . '"> Join forum </a></button>';
+     	
+     	}
+     	
+     	}
+     	
+     	else {
+     	
+     		echo '<button class="create"><a style="color: black;" href="' . $page["rootPath"] . 'login?next=forum?id=' . $forumId . '"> Sign In to Create a Topic </a></button>';
+     		
+     	}
+     	
+     ?>
      
      <div id="threadHolder">
      

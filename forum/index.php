@@ -86,36 +86,7 @@ footer {
  		}
  		
  	?>
- 	<!--
-      <div class="forum-container"><img style=" width: 50px; height: 38px; margin-top: 5px; float: left;" src="forumIMG/Plant.png"><p ><a href="agricultural-students-forum"> 
-        Agriculture Students Forum</a></p></div>
-      <div class="forum-container"><img style=" width: 40px; height: 38px; margin-top: 5px; float: left; " src="forumIMG/20220614-152136.png"><p ><a href=""> 
-        Management Studies Students Forum</a></p></div>
-        <div class="forum-container"><img style="height: 50px; width: 50px;margin-top: 5px; float: left; " src="forumIMG/Teaching_icon.png"><p ><a href="#"> 
-          Education Students Forum</a></p></div>
-            <div class="forum-container"><img style="height: 40px; width: 50px;margin-top: 5px; float: left;" src="forumIMG/IMG_20220615_055735.jpg"><p ><a href="#"> 
-              Engineering Students Forum</a></p></div>
-              <div class="forum-container"><img style="height: 33px; margin-left: 5px; width: 40px;margin-top: 5px; float: left; " src="forumIMG/images(1).png"><p ><a href="#"> 
-                 Arts Students Forum</a></p></div>
-                <div class="forum-container"><img style="height: 40px; width: 50px;margin-top: 5px; float: left;" src="forumIMG/Biology.png"><p ><a href="#"> 
-                  Biological Sciences Students Forum</a></p></div>
-                  <div class="forum-container"><img style="height: 40px; width: 50px;margin-top: 5px; float: left;" src="forumIMG/Social science.png"><p ><a href="#"> 
-                    Social Sciences Forum</a></p></div>
-                    <div class="forum-container"><img style="height: 40px; margin-left: 5px; width: 50px; margin-top: 5px; float: left;" src="forumIMG/Dentist.png"><p ><a href="#"> 
-                      Dentistry Students Forum</a></p></div>
-                      <div class="forum-container"><img style="height: 40px; margin-left: 5px; width: 50px;margin-top: 5px; float: left; " src="forumIMG/Health science.png"><p ><a href="#"> 
-                        Health Sciences and Technology Students Forum</a></p></div>
-                        <div class="forum-container"><img style="height: 40px; width: 50px;margin-top: 5px; float: left;" src="forumIMG/Law.png"><p ><a href="#"> 
-                          Law Students Forum</a></p></div>
-                          <div class="forum-container"><img style="height: 40px; width: 50px;margin-top: 5px; float: left;" src="forumIMG/Medicine.png"><p ><a href="#"> 
-                            Medical Sciences Students Forum</a></p></div>
-                              <div class="forum-container"><img style="height: 40px; width: 50px;margin-top: 5px; float: left;" src="forumIMG/Pills.png"><p ><a href="#"> 
-                                Pharmaceutical Sciences Students Forum</a></p></div>
-                       <div class="forum-container"><img style="height: 40px; width: 50px;margin-top: 5px; float: left;" src="forumIMG/phy sci.png"><p ><a href="#"> 
-                         Physical Sciences Student Forum</a></p></div>
-                        <div class="forum-container"><img style="height: 40px; width: 50px;margin-top: 5px; float: left;" src="forumIMG/Vet.png"><p ><a href="#"> 
-                                    Veterinary Medicine Students Forum</a></p></div>
-            -->
+
 <?php
 	
 	include($page["rootPath"] . "templates/footer.php");

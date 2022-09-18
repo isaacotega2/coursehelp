@@ -37,6 +37,8 @@
  		position: absolute;
  		bottom: 0;
  		right: 0;
+ 		color: black;
+ 		font-weight: 700;
  	}
  
  	#imageDisplayHolder #image {
@@ -54,10 +56,14 @@
  
  <h2 id="heading">Handouts</h2>
  
- <p class="hierachy"><label content="mainCourse"></label> > <label content="subCourse"></label> > Handouts</p>
+ <p class="hierachy"><label content="institution"></label> > <label content="department"></label> > courses > <label content="course"></label> > handouts > <label content="handout"></label> > gallery</p>
  
  <div id="imageDisplayHolder" style="display: none">
  
+ 	<h3 class="subHeading">Page <label id="pageNumber"></label></h3>
+ 
+	<button class="closeButton" for="inpImageChanger" id="btnClose">X</button>
+			
  	<img id="image"></img>
  	
  	<br><br>
@@ -67,8 +73,6 @@
 		<div class="centerHolder">
 			
 			<label class="button" for="inpImageChanger" id="lblImageChanger">Change image</label>
-			
-			<button class="button" for="inpImageChanger" id="btnClose">X</button>
 			
 		</div>
 	
@@ -81,37 +85,50 @@
  
  <script>
  
- 	var activePage = "1";
+ 	var handoutId = sessionStorage.getItem("activeHandout");
  	
- 	var subCourseId = sessionStorage.getItem("activeHandout");
+ 	var handoutDetails = {}
  	
-	loadImages();
-				
- 	function loadImages() {
- 
  	$.ajax({
 		url: "scripts/ajax-handler.php",
 		type: "post",
 		dataType: "JSON",
 		data: {
 		
-			request: "getSubCourseDetails",
-			subCourseId: subCourseId
+			request: "getOfficialHandoutDetails",
+			handoutId: handoutId
 		
 		},
 		success: function(response) {
 	//		alert ( JSON.stringify(response) );
-			$("[content=mainCourse]").html(response["mainCourseDetails"]["name"]);
+	
+			handoutDetails = response;
 			
-			$("[content=subCourse]").html(response["name"]);
+			$("[content=institution]").html(response["institution"]["name"]);
 			
+			$("[content=department]").html(response["department"]["name"]);
+			
+			$("[content=course]").html(response["course"]["name"]);
+			
+			$("[content=handout]").html(response["name"]);
+			
+			loadImages();
+				
+		}
+	});
+	
+	
+ 	var activePage = "1";
+ 	
+ 	function loadImages() {
+ 
 			$("#imageHolder").html("");
 				
-			for(var i = 0; i < Number(response["pagesNumber"]); i++) {
+			for(var i = 0; i < Number(handoutDetails["pagesNumber"]); i++) {
 				
 				var index = (i + 1);
 				
-				var imageHolder = '<div class="imageHolder" page="' + index + '"> <img id="image" src="../scripts/php/handout-page.php?sub-course-id=' + response["subCourseId"] + '&page=' + index + '"></img> <span id="page">' + index + '</span> </div>';
+				var imageHolder = '<div class="imageHolder" page="' + index + '"> <img id="image" src="../handout-page?id=' + handoutId + '&page=' + index + '"></img> <span id="page">' + index + '</span> </div>';
 			
 				$("#imageHolder").append(imageHolder);
 				
@@ -125,12 +142,6 @@
 			
 			});
 				
-		},
-		error: function(response) {
-		alert ( JSON.stringify(response) );
-		}
-	});
-	
 	}
 	
 	
@@ -148,7 +159,7 @@
 			
 			data.append("request", "changeHandoutImage");
 			
-			data.append("subCourseId", sessionStorage.getItem("activeHandout"));
+			data.append("handoutId", handoutId);
 			
 			data.append("page", activePage);
 			
@@ -163,7 +174,7 @@
 				
 					if(response.status == "success") {
 					
-						$("#imageDisplayHolder #image").attr("src", '../scripts/php/handout-page.php?sub-course-id=' + subCourseId + '&page=' + activePage);
+						$("#imageDisplayHolder #image").attr("src", '../handout-page?id=' + handoutId + '&page=' + activePage);
 	
 						loadImages();
 						
@@ -190,13 +201,22 @@
 	
 	});
 	
+	$(".hierachy #lblSubCourse").click(function() {
+	
+		bottomPage.rise("sub-course-page");
+	
+	});
+	
+	
 	function displayImage() {
 	
 		$("#imageHolder").hide(100);
 		
 		$("#imageDisplayHolder").show(100);
 		
-		$("#imageDisplayHolder #image").attr("src", '../scripts/php/handout-page.php?sub-course-id=' + subCourseId + '&page=' + activePage);
+		$("#imageDisplayHolder #pageNumber").html(activePage);
+	
+		$("#imageDisplayHolder #image").attr("src", '../handout-page?id=' + handoutId + '&page=' + activePage);
 	
 	}
 	

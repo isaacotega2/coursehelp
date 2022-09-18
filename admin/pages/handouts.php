@@ -28,8 +28,6 @@
 			
 				<th>Date posted</th>
 			
-				<th>Actions</th>
-			
 			</thead>
 		
 			<tbody>
@@ -85,7 +83,7 @@
 				
 				var handout = response[i];
 				
-				var row = $('<tr id="' + handout["subCourseId"] + '"></tr>').html('<td>' + index + '</td> <td>' + handout["name"] + '</td> <td>' + handout["course"] + '</td> <td>' + handout["level"] + '</td> <td>' + handout["pagesNumber"] + '</td> <td>' + handout["institution"] + '</td> <td>' + handout["department"] + '</td> <td>' + handout["datePosted"] + ", " + handout["timePosted"] + '</td> <td>a</td>');
+				var row = $('<tr id="' + handout["subCourseId"] + '"></tr>').html('<td>' + index + '</td> <td>' + handout["name"] + '</td> <td>' + handout["course"] + '</td> <td>' + handout["level"] + '</td> <td>' + handout["pagesNumber"] + '</td> <td>' + handout["institution"] + '</td> <td>' + handout["department"] + '</td> <td>' + handout["datePosted"] + ", " + handout["timePosted"] + '</td> </tr>');
 				
 				$("#tblOurHandouts tbody").append(row);
 			

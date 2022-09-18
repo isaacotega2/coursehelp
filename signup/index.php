@@ -1,6 +1,6 @@
 <?php
 
-	$page = array("rootPath" => "../", "title" => "Signup");
+	$page = array("rootPath" => "../", "title" => "Signup", "buttonLine" => array("exists" => false));
 	
 	include_once("../scripts/php/connection.php");
 	
