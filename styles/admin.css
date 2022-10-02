@@ -1,0 +1,408 @@
+body {
+	 background-color: black;
+	 margin: 0;
+	 color: white;
+ }
+ button {
+	outline: none;
+}
+ 
+ input {
+	outline: none;
+}
+
+ textarea {
+	outline: none;
+}
+
+ select {
+	outline: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.hidden {
+	display: none;
+}
+
+svg {
+	fill: white;
+}
+
+.centerHolder {
+	width: 100%;
+	text-align: center;
+	display: block;
+}
+
+.subHeading {
+	font-size: 35px;
+	font-weight: 700;
+}
+
+.statement {
+	font-size: 22px;
+	text-indent: 1cm;
+}
+
+
+ #header {
+	background-color: #250030;
+	height: 3cm;
+	width: 100%;
+	border: none;
+	box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.5);
+	line-height: 3cm;
+	text-align: center;
+	position: fixed;
+	top: 0;
+	z-index: 3;
+	text-align: left;
+	text-indent: 1cm;
+}
+
+#header #heading {
+	color: white;
+	font-weight: 300;
+	font-size: 40px;
+}
+
+#header #lblLogOut {
+	color: white;
+	font-weight: 300;
+	font-size: 25px;
+	float: right;
+	padding: 0 3mm;
+}
+
+ #footer {
+	background-color: #250030;
+	color: white;
+	height: 3cm;
+	width: 100%;
+	border: none;
+	box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.5);
+	line-height: 3cm;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	z-index: 3;
+	text-align: left;
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+
+#footer table {
+	width: 100%;
+	display: block;
+}
+
+#footer .item {
+	display: inline-block;
+	padding: 3mm 7mm;
+	transition: background-color 0.3s;
+	border-radius: 50px;
+	text-align: center;
+}
+
+#footer .item #icon svg {
+	width: 1.3cm;
+	height: 1.3cm;
+}
+
+#footer .item #text {
+	display: block;
+	line-height: 1.3cm;
+	font-weight: 300;
+	font-size: 25px;
+}
+
+#footer  #selected {
+	color: orange;
+}
+
+#footer  #selected svg {
+	fill: orange;
+}
+
+#footer .item:active {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+#main {
+	
+}
+
+#main .container {
+	overflow: scroll;
+	padding-bottom: 3.5cm;
+}
+
+#main .container #heading {
+	font-size: 45px;
+	font-weight: 700;
+}
+
+#main .container #content {
+	height: 15cm;
+	overflow: scroll;
+	padding-bottom: 1cm;
+	transition: box-shadow 0.3s;
+}
+
+#main .container #content:hover {
+	box-shadow: 0 0 30px 0 rgba(255, 255, 255, 0.8);
+}
+
+
+.form {
+	width: 96%;
+	margin: 0 2%;
+	border-radius: 2%;
+	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+	text-align: center;
+}
+
+.form .formHeading {
+	font-size: 40px;
+	font-weight: 300;
+}
+
+.form .formError {
+	color: red;
+	font-size: 25px;
+	font-weight: 300;
+	height: 2cm;
+	width: 80%;
+	margin: 1cm 0 0 10%;
+	border-radius: 5%;
+	border: 2px dashed red;
+	display: none;
+}
+
+.form .formError label {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.form .formLabel {
+	font-size: 30px;
+	font-weight: 300;
+	max-width: 90%;
+	display: inline-block;
+	color: white;
+}
+
+.form .input {
+	height: 2.5cm;
+	width: 80%;
+	margin: 3mm 0;
+	color: black;
+	font-size: 35px;
+	border-radius: 10px;
+	border: 2px solid black;
+	padding: 0 5px;
+}
+
+.form .submit {
+	height: 2.5cm;
+	width: 84%;
+	border-radius: 10px;
+	font-size: 30px;
+	background-color: indigo;
+	color: white;
+	border: white;
+	transition: background-color 0.2s;
+}
+
+.form .submit:hover {
+	background-color: blue;
+	color: black;
+}
+
+.form .select {
+	height: 2.5cm;
+	width: 80%;
+	margin: 3mm 0;
+	color: black;
+	font-size: 35px;
+	border-radius: 10px;
+	border: 2px solid black;
+	padding: 0 5px;
+	background-color: rgba(255, 255, 255, 0.7);
+}
+
+.form .textarea {
+	height: 5cm;
+	width: 80%;
+	margin: 3mm 0;
+	color: black;
+	font-size: 33px;
+	border-radius: 10px;
+	border: 2px solid black;
+}
+
+
+#loader {
+	color: white;
+	width: 100%;
+	text-align: center;
+	font-size: 40px;
+	font-weight: 700;
+}
+
+/* Tables */
+
+.table {
+	border: 2px solid black;
+	width: 98%;
+	font-size: 25px;
+	background-color: rgba(0, 0, 0, 0);
+	color: white;
+	margin: 2cm 1%;
+	box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.5);
+}
+
+.table thead {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.table tbody {
+	background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table tfoot {
+	background-color: indigo;
+}
+
+.table tr {
+	line-height: 1cm;
+	height: 2.5cm;
+	transition: background-color 0.3s;
+}
+
+.table tr:active {
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.table th {
+	text-align: center;
+	height: 1cm;
+}
+
+.table td {
+	text-align: center;
+	height: 1cm;
+}
+
+[id=tblActions] tbody tr:active {
+ 	background-color: rgba(0, 0, 0, 0);
+ }
+ 	
+[id=tblActions] tbody tr td:active {
+	background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table #loader {
+	background-color:  rgba(0, 0, 0, 0);
+	border: 5px solid white;
+	border-top: 5px solid rgba(0, 0, 0, 0.1);
+	border-radius: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	animation: spin 1.5s linear infinite;
+	display: inline-block;
+	width: 1.5cm;
+	height: 1.5cm;
+	display: none;
+	margin: 1cm;
+}
+ 
+ .table [type=checkbox] {
+	height: 0.8cm;
+	width: 0.8cm;
+	margin: 0;
+	padding: 2cm;
+}
+
+#bottomPage {
+	position: fixed;
+	top: 3cm;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+
+#bottomPage #background {
+	width: 100%;
+	height: 100%;
+	transition: background-color 0.2s;
+}
+
+#bottomPage #container {
+	position: fixed;
+	bottom: 3cm;
+	width: 98%;
+	height: 0%;
+	overflow-x: scroll;
+	overflow-y: scroll;
+	background-color: #250030;
+	border-radius: 15px 15px 0 0;
+	transition: height 0.2s;
+	padding: 1cm 1% 0 1%;
+}
+
+#bottomPage #container #heading {
+	font-weight: 700;
+	font-size: 45px;
+}
+
+#bottomPage #container .hierachy {
+	font-weight: 700;
+	font-size: 25px;
+}
+
+#bottomPage #container .closeButton {
+	background-color: rgba(255, 0, 0, 0.3);
+	font-size: 22px;
+	font-weight: 700;
+	float: right;
+	padding: 7mm;
+	border: none;
+	color: white;
+}
+
+#bottomPage #container .closeButton:active {
+	background-color: rgba(255, 0, 0, 0.5);
+}
+
+
+.button {
+	height: 2.5cm;
+	width: 84%;
+	border-radius: 10px;
+	font-size: 30px;
+	background-color: rgba(255, 255, 255, 0.1);
+	color: white;
+	border: white;
+	transition: background-color 0.2s;
+}
+
+.button:active {
+	background-color: rgba(255, 255, 255, 0.2);
+	color: white;
+}
+
+@-webkit-keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+ 
